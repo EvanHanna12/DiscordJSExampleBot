@@ -14,7 +14,7 @@ const client = new Discord.Client();
 // Bot token
 // Get from your bot application
 // https://discordapp.com/developers/applications/me
-const token="MzU5NTEyNjA3NzE3MDY0NzA2.DT6FeQ.vVUzrDMoRslJDsHmFECgetqcRU4";
+const token="BOT_TOKEN";
 
 // Bot Prefix
 const prefix="!";
