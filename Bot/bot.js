@@ -4,7 +4,7 @@
 // ex: CD C:\Programs\MyDiscordBot
 // then: npm install discord.js --save
 // If Node & NPM is not installed install it from https://nodejs.org/en/
-// run bot with the command from CMD: node bot.js
+// run bot with the command from CMD (in the directory the bot files are in): node bot.js
 // or if you have sharder.js, use: node sharder.js
 const Discord = require('discord.js');
 
@@ -20,7 +20,7 @@ const token="BOT_TOKEN";
 const prefix="!";
 
 // option to log activity changes to console
-// this will send a message to the console at least every 5 seconds
+// this will send a message to the console at least every 7 seconds
 var log_change_to_console=false;
 
 // Changes the bots activity message between these every five seconds
@@ -46,7 +46,7 @@ setInterval(function() {
 			// client.guilds: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=guilds 
 			console.log(`Changed Activity To "${client.channels.size} Channels" (LISTENING)`);
 		}
-	}, 5000);
+	}, 7000);
 	setTimeout(function() {
 		// Changes the bots status to "Playing With ${client.users.size} Users"
 		// client.users.size = total users the bot can see throughout all guilds
@@ -58,14 +58,14 @@ setInterval(function() {
 			// client.guilds: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=guilds 
 			console.log(`Changed Activity To "With ${client.users.size} Users" (PLAYING)`);
 		}
-	}, 10000);
-}, 15000);
+	}, 14000);
+}, 21000);
 
 
 // This event will run if the bot starts, and logs in, successfully.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-ready
 client.on("ready", () => {
-  // logs a message to console with how man guilds the bot is in, how many channels it can see, and how many users it can see.
+  // logs a message to console with how man guilds the bot is in, how many channels it can see (sharding will change this valyue), and how many users it is handling (user cache and sharding will change this value).
   // client.guilds: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=guilds
   // client.users: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=users
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
@@ -174,17 +174,23 @@ client.on("message", async message => {
 			}
 			
 			if(!kickmember.kickable) {
-			  return message.reply("I cannot kick this user! Do they have a higher role? Do I have kick permissions?");
+				//kickable: https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=kickable
+			  	return message.reply("I cannot kick this user! Do they have a higher role? Do I have kick permissions?");
 			}
 			// slice(1) removes the first part, which here should be the user mention!
-			let kickreason = args.slice(1).join(' ');
+			// .join(" ") joins all arguments (other than the mention) back together with spaces for the reason
+			let kickreason = args.slice(1).join(" ");
 			if(!kickreason) {
-			  return message.reply("Please indicate a reason for the kick!");
+			 	//if no reason is specified end execution and reply with the error message
+				//to disable this comment out the NEXT LINE ONLY
+			 	return message.reply("Please indicate a reason for the kick!");
 			}
 			
 			// Now, time to kick them!
+			// catch and log error to console if error is thrown, without catch, the bot would stop after the error
 			await kickmember.kick(kickreason)
 			  .catch(error => message.reply(`Sorry ${message.author} I couldn't kick ${kickmember.user.tag} because of : ${error}`));
+			//also send error to channel
 			message.reply(`${member.user.tag} has been kicked by ${kickmessage.author.tag} because: ${reason}`);
 		break;
 		
@@ -192,11 +198,12 @@ client.on("message", async message => {
 			// This command will be similar to kick, but here we'll check for permissions
 			// Permission Strings: https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS
 			// .hasPermission Function: https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=hasPermission
-			// .hasPermissions Function: https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=hasPermissions
+			// .hasPermissions [DEPRECATED] [DO NOT USE]: https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=hasPermissions
 			// People with the ADMINISTRATOR permission, and the OWNER will bypass this, the last 2 parameters cause this.
 			if(!message.member.hasPermission("BAN_MEMBERS",null,true,true)) {
 			// Example with Multiple Permissions:
-			// .hasPermissions(Array("BAN_MEMBERS","KICK_MEMBERS"),null,true,true)) {
+			// changed to .hasPermission(Array()) after .hasPermissions() deprecation.
+			// .hasPermission(Array("BAN_MEMBERS","KICK_MEMBERS"),null,true,true)) {
 			  return message.reply("Sorry, you don't have permissions to use this!");
 			}
 			
@@ -208,15 +215,19 @@ client.on("message", async message => {
 			// MessageMentions Class: https://discord.js.org/#/docs/main/stable/class/MessageMentions
 			let banmember = message.mentions.members.first();
 			if(!banmember) {
-			  return message.reply("Please mention a valid member of this server");
+				//if no reason is specified end execution and reply with the error message
+				//to disable this comment out the NEXT LINE ONLY
+				return message.reply("Please mention a valid member of this server");
 			}
 			
-			if(!banmember.kickable) {
-			  return message.reply("I cannot ban this user! Do they have a higher role? Do I have ban permissions?");
+			if(!banmember.bannable) {
+				//bannable: https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=bannable
+			 	return message.reply("I cannot ban this user! Do they have a higher role? Do I have ban permissions?");
 			}
 			
 			// slice(1) removes the first part, which here should be the user mention!
-			let banreason = args.slice(1).join(' ');
+			// .join(" ") joins all arguments (other than the mention) back together with spaces for the reason
+			let banreason = args.slice(1).join(" ");
 			
 			if(!banreason) {
 			  return message.reply("Please indicate a reason for the ban!");
