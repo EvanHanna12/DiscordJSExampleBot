@@ -141,8 +141,8 @@ client.on("message", async message => {
 	// e.g. if we have the message "!say Is this the real life?" , we'll get the following:
 	// command = say
 	// args = ["Is", "this", "the", "real", "life?"]
-	const args = message.content.slice(prefix.length).trim().split(/\s+/g);
-	const command = args.shift().toLowerCase();
+	var args = message.content.slice(prefix.length).trim().split(/\s+/g);
+	var command = args.shift().toLowerCase();
 
 	switch(command) {
 		case "ping":
@@ -150,7 +150,7 @@ client.on("message", async message => {
 			// The second ping is an average latency between the bot and the websocket server (one-way, not round-trip)
 			// Message Class: https://discord.js.org/#/docs/main/stable/class/Message
 			// Channel Class: https://discord.js.org/#/docs/main/stable/class/Channel
-			const m = await message.channel.send("Ping?");
+			var m = await message.channel.send("Ping?");
 			m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
 		break;
 
