@@ -19,10 +19,6 @@ const token="BOT_TOKEN";
 // Bot Prefix
 const prefix="!";
 
-// option to log activity changes to console
-// this will send a message to the console at least every 7 seconds
-var log_change_to_console=false;
-
 // Changes the bots activity message between these every five seconds
 setInterval(function() {
 	// Changes the bots status to "Watching ${client.guilds.size} Guilds"
@@ -30,36 +26,21 @@ setInterval(function() {
 	// Function: https://discord.js.org/#/docs/main/stable/class/ClientUser?scrollTo=setActivity
 	// Type Values: https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 	client.user.setActivity(`${client.guilds.size} Guilds`,{"type":"WATCHING"});
-	if(log_change_to_console) {
-		// logs the activity change to the console
-		// client.guilds: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=guilds 
-		console.log(`Changed Activity To "${client.guilds.size} Guilds" (WATCHING)`);
-	}
 	setTimeout(function() {
 		// Changes the bots status to "Listening to ${client.channels.size} Channels"
 		// client.channels.size = total count of channels the bot can see throughout all guilds
 		// Function: https://discord.js.org/#/docs/main/stable/class/ClientUser?scrollTo=setActivity
 		// Type Values: https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 		client.user.setActivity(`${client.channels.size} Channels`,{"type":"LISTENING"});
-		if(log_change_to_console) {
-			// logs the activity change to the console
-			// client.guilds: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=guilds 
-			console.log(`Changed Activity To "${client.channels.size} Channels" (LISTENING)`);
-		}
-	}, 7000);
+	}, 7e3);
 	setTimeout(function() {
 		// Changes the bots status to "Playing With ${client.users.size} Users"
 		// client.users.size = total users the bot can see throughout all guilds
 		// Function: https://discord.js.org/#/docs/main/stable/class/ClientUser?scrollTo=setActivity
 		// Type Values: https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 		client.user.setActivity(`With ${client.users.size} Users`,{"type":"PLAYING"});
-		if(log_change_to_console) {
-			// logs the activity change to the console
-			// client.guilds: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=guilds 
-			console.log(`Changed Activity To "With ${client.users.size} Users" (PLAYING)`);
-		}
-	}, 14000);
-}, 21000);
+	}, 14e3);
+}, 21e3);
 
 
 // This event will run if the bot starts, and logs in, successfully.
