@@ -3,7 +3,7 @@
 // use the CD command to change to the directory where your bot is
 // ex: CD C:\Programs\MyDiscordBot
 // then: npm install discord.js --save
-// If Node & NPM is not installed install it from https://nodejs.org/en/
+// If Node.JS is not installed install it from https://nodejs.org/
 // run bot with the command from CMD (in the directory the bot files are in): node bot.js
 // or if you have sharder.js, use: node sharder.js
 const Discord = require('discord.js');
