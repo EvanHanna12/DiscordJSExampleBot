@@ -20,20 +20,20 @@ const token="BOT_TOKEN";
 const prefix="!";
 
 // Changes the bots activity message between these every five seconds
-setInterval(function() {
+setInterval(() => {
 	// Changes the bots status to "Watching ${client.guilds.size} Guilds"
 	// client.guilds.size = total count of guilds the bot is in
 	// Function: https://discord.js.org/#/docs/main/stable/class/ClientUser?scrollTo=setActivity
 	// Type Values: https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 	client.user.setActivity(`${client.guilds.size} Guilds`,{"type":"WATCHING"});
-	setTimeout(function() {
+	setTimeout(() => {
 		// Changes the bots status to "Listening to ${client.channels.size} Channels"
 		// client.channels.size = total count of channels the bot can see throughout all guilds
 		// Function: https://discord.js.org/#/docs/main/stable/class/ClientUser?scrollTo=setActivity
 		// Type Values: https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 		client.user.setActivity(`${client.channels.size} Channels`,{"type":"LISTENING"});
 	}, 7e3);
-	setTimeout(function() {
+	setTimeout(() => {
 		// Changes the bots status to "Playing With ${client.users.size} Users"
 		// client.users.size = total users the bot can see throughout all guilds
 		// Function: https://discord.js.org/#/docs/main/stable/class/ClientUser?scrollTo=setActivity
@@ -60,7 +60,7 @@ client.on("ready", () => {
 
 // This event will run when the bot is added to a guild.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildCreate
-client.on("guildCreate", guild => {
+client.on("guildCreate", async (guild) => {
   // Guild Class: https://discord.js.org/#/docs/main/stable/class/Guild
   console.log(`New Guild: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
 });
@@ -68,7 +68,7 @@ client.on("guildCreate", guild => {
 
 // This event will run when the bot is removed from a guild.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildDelete
-client.on("guildDelete", guild => {
+client.on("guildDelete", async (guild) => {
   // Guild Class: https://discord.js.org/#/docs/main/stable/class/Guild
   console.log(`Removed from: ${guild.name} (id: ${guild.id})`);
 });
@@ -76,7 +76,7 @@ client.on("guildDelete", guild => {
 
 // This event will run when a member joins a guild.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberAdd
-client.on("guildMemberAdd", member => {
+client.on("guildMemberAdd", async (member) => {
 	// GuildMember Class: https://discord.js.org/#/docs/main/stable/class/GuildMember
 	console.log(`New Member: ${member.user.tag} in guild ${member.guild.name} (${member.guild.id})`);
 });
@@ -84,7 +84,7 @@ client.on("guildMemberAdd", member => {
 
 // This event will run when a member leaves or is kicked from a guild.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberRemove
-client.on("guildMemberRemove", member => {
+client.on("guildMemberRemove", async (member) => {
 	// Member Object: https://discord.js.org/#/docs/main/stable/class/GuildMember
 	console.log(`Member Left: ${member.user.tag} in guild ${member.guild.name} (${member.guild.id})`);
 });
@@ -92,7 +92,7 @@ client.on("guildMemberRemove", member => {
 
 // This event will run when a member is banned from a guild.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildBanAdd
-client.on("guildBanAdd", member => {
+client.on("guildBanAdd", async (member) => {
 	// Guild Class: https://discord.js.org/#/docs/main/stable/class/Guild
 	// User Class: https://discord.js.org/#/docs/main/stable/class/User
 	console.log(`Member Banned: ${member.user.tag} in guild ${member.guild.name} (${member.guild.id})`);
@@ -101,7 +101,7 @@ client.on("guildBanAdd", member => {
 
 // This event will run when a member is unbanned from a guild.
 // Event: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildBanRemove
-client.on("guildBanRemove", member => {
+client.on("guildBanRemove", async (member) => {
 	// Guild Class: https://discord.js.org/#/docs/main/stable/class/Guild
 	// User Class: https://discord.js.org/#/docs/main/stable/class/User
 	console.log(`Member UnBanned: ${member.user.tag} in guild ${member.guild.name} (${member.guild.id})`);
@@ -110,7 +110,7 @@ client.on("guildBanRemove", member => {
 
 // This event will run when a member sends a message in a channel the bot can see
 // Message Class: https://discord.js.org/#/docs/main/stable/class/Message
-client.on("message", async message => {
+client.on("message", async (message) => {
 	
 	// Its best to ignore all messages from other bots
 	// this makes it ignore itself, and all other bots.
