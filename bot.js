@@ -14,7 +14,7 @@ const client = new Discord.Client();
 // Bot token
 // Get from your bot application
 // https://discordapp.com/developers/applications/me
-const token="BOT_TOKEN";
+
 
 // Bot Prefix
 const prefix="!";
@@ -226,4 +226,4 @@ client.on("message", async (message) => {
 
 // This will connect the bot with discords API
 // Client Class: https://discord.js.org/#/docs/main/stable/class/Client
-client.login(token);
+client.login(process.env.TOKEN);
